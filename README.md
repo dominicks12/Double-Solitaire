@@ -15,22 +15,27 @@ Both players are given the same game of solitaire to play. A timer will count ho
 
 # Deliverables
 
-Double Solitaire frontend
-Double Solitaire backend
-Documentation
-GUI
+1. Double Solitaire frontend
+2. Double Solitaire backend
+3. Documentation
+4. GUI
 
 # Plan
 *Week 1 (Oct 22nd - Oct 29th) 
 -Design the GUI 
+
 *Week 2 (Oct 29th - Nov 5th) 
 -Implement the GUI 
+
 *Week 3 (Nov 5th - Nov 12th) 
 -Design the backend service 
+
 *Week 4 (Nov 12th - Nov 19th) 
 -Implement the backend service 
+
 *Week 5 (Nov 19th - Nov 26th) 
--Design the frontend service 
+-Design the frontend service
+ 
 *Week 6 (Nov 26th - Dec 3rd) 
 -Implement the frontend service 
 -Bug Fixes 
@@ -39,5 +44,5 @@ GUI
 
 
 # Team Members
-Dominic Amaral
-Victor Lemus
+*Dominic Amaral
+*Victor Lemus
