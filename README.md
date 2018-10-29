@@ -21,24 +21,24 @@ Both players are given the same game of solitaire to play. A timer will count ho
 4. GUI
 
 # Plan
-* Week 1 (Oct 22nd - Oct 29th) 
+* Week 1 (Oct 22nd - Oct 29th) \n
 -Design the GUI 
 
-* Week 2 (Oct 29th - Nov 5th) 
+* Week 2 (Oct 29th - Nov 5th) \n
 -Implement the GUI 
 
-* Week 3 (Nov 5th - Nov 12th) 
+* Week 3 (Nov 5th - Nov 12th) \n
 -Design the backend service 
 
-* Week 4 (Nov 12th - Nov 19th) 
+* Week 4 (Nov 12th - Nov 19th) \n
 -Implement the backend service 
 
-* Week 5 (Nov 19th - Nov 26th) 
+* Week 5 (Nov 19th - Nov 26th) \n
 -Design the frontend service
  
-* Week 6 (Nov 26th - Dec 3rd) 
--Implement the frontend service 
--Bug Fixes 
+* Week 6 (Nov 26th - Dec 3rd) \n
+-Implement the frontend service \n
+-Bug Fixes \n
 -Finish Documentation 
 
 
