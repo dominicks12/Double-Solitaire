@@ -29,3 +29,6 @@
 
 ### Any blocking issues/challenges that need to be addressed
 * The game board needs to be developed alongside the logic of the game
+
+# Comments
+1. Make sure you push code to master often. As long as you get done with one part, push the completed code to master and move on to the next rather than waiting to finish a big chunk then push
