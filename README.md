@@ -46,3 +46,7 @@ Both players are given the same game of solitaire to play. A timer will count ho
 # Team Members
 * Dominic Amaral
 * Victor Lemus
+
+# Comments
+1. Write more details on the deliverables. What features will be delivered on the Front end/Back end
+2. Think about extension of the game. Maybe having more than 2 people play the same game at the same time
