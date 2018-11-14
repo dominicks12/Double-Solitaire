@@ -30,5 +30,19 @@
 ### Any blocking issues/challenges that need to be addressed
 * The game board needs to be developed alongside the logic of the game
 
+## Week 3 (Nov 5th - Nov 12th)
+
+### What did your team do last week?
+* Continued implementing the game logic
+* Began designing the GUI for the actual Solitaire section of the game (The actual Solitaire game)
+
+### What will you do this week
+* Continue implementing the game logic
+* Continue designing the GUI for the Solitaire section
+* Consider/Design support for more than a single pair of players
+
+### Any blocking issues challenges that need to be addressed
+* No new challenges
+
 # Comments
 1. Make sure you push code to master often. As long as you get done with one part, push the completed code to master and move on to the next rather than waiting to finish a big chunk then push
