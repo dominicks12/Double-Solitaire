@@ -10,8 +10,8 @@ class Deck:
             if card not in self.cards:
                 self.cards.append(card)
 
-    def remove_card(self, card):
-        self.cards.remove(card)
+    def remove_card(self):
+        self.cards.pop(0)
 
     def add_back(self, card):
         self.cards.append(card)

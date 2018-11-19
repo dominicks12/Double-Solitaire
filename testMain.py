@@ -1,8 +1,10 @@
 from board1 import Board
 from card import Card
 from pile import Pile
+from solitaire import Solitaire
 
-Board.start()
+game = Solitaire
+game.start(game)
 
 testPile = Pile()
 testCard1 = Card()

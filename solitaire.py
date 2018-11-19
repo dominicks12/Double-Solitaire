@@ -1,5 +1,7 @@
 import pygame
+import sys
 from deck import Deck
+from board1 import Board
 
 pygame.init()
 
@@ -19,8 +21,10 @@ class Solitaire:
     suit_row3 = []
     suit_row4 = []
 
+    deck = Deck()
+
     def __init__(self):
-        self.deck = Deck()
+        return
 
     def deal(self):
         self.row1.append(self.deck.remove_card())
@@ -60,4 +64,22 @@ class Solitaire:
         return self.deck.remove_card()
 
     def start(self):
-        self.deal()
+        self.deal(self)
+        board = Board()
+        carryon = True
+        screen_num = 1
+        while carryon:
+            if screen_num == 0:
+                sys.exit(0)
+
+            if screen_num == 1:
+                screen_num = board.start()
+
+            if screen_num == 2:
+                screen_num = board.instruction_screen()
+
+            if screen_num == 3:
+                screen_num = board.waiting_screen()
+
+            if screen_num == 4:
+                screen_num = board.game_screen()

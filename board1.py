@@ -15,6 +15,10 @@ class TextRectException:
 
 
 class Board:
+
+    def __init__(self):
+        return
+
     # Define colors
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
@@ -65,41 +69,40 @@ class Board:
         exit_text_rect.centerx = exit_button.centerx
         exit_text_rect.centery = exit_button.centery
 
-        while carryon:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit(0)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
 
                 if start_button.collidepoint(mouse_pos):
                     time.sleep(.200)
-                    Board.waiting_screen()
+                    return 3
 
                 if instruct_button.collidepoint(mouse_pos):
                     time.sleep(.200)
-                    Board.instruction_screen()
+                    return 2
 
                 if exit_button.collidepoint(mouse_pos):
-                    carryon = False
+                    return 0
 
-            Board.screen.fill(Board.BACKGROUND)
-            Board.screen.blit(text, text_rect)
+        Board.screen.fill(Board.BACKGROUND)
+        Board.screen.blit(text, text_rect)
 
-            pygame.draw.rect(Board.screen, Board.WHITE, start_button)
-            pygame.draw.rect(Board.screen, Board.WHITE, instruct_button)
-            pygame.draw.rect(Board.screen, Board.WHITE, exit_button)
+        pygame.draw.rect(Board.screen, Board.WHITE, start_button)
+        pygame.draw.rect(Board.screen, Board.WHITE, instruct_button)
+        pygame.draw.rect(Board.screen, Board.WHITE, exit_button)
 
-            Board.screen.blit(start_text, start_text_rect)
-            Board.screen.blit(instruct_text, instruct_text_rect)
-            Board.screen.blit(exit_text, exit_text_rect)
+        Board.screen.blit(start_text, start_text_rect)
+        Board.screen.blit(instruct_text, instruct_text_rect)
+        Board.screen.blit(exit_text, exit_text_rect)
 
-            pygame.display.update()
-            pygame.display.flip()
+        pygame.display.update()
+        pygame.display.flip()
 
-            Board.clock.tick(60)
-        return
+        Board.clock.tick(60)
+        return 1
 
     @staticmethod
     def instruction_screen():
@@ -126,33 +129,31 @@ class Board:
         back_text_rect.centery = back_button.centery
         rendered_text = Board.render_textrect(my_string, basic_font, black_rect, Board.BLACK, Board.BACKGROUND, 0)
 
-        carryon = True
-        while carryon:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit(0)
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_pos =event.pos
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
 
-                    if back_button.collidepoint(mouse_pos):
-                        time.sleep(.200)
-                        carryon = False
+                if back_button.collidepoint(mouse_pos):
+                    time.sleep(.200)
+                    return 1
 
-            Board.screen.fill(Board.BACKGROUND)
+        Board.screen.fill(Board.BACKGROUND)
 
-            pygame.draw.rect(Board.screen, Board.BACKGROUND, black_rect)
-            pygame.draw.rect(Board.screen, Board.WHITE, back_button)
+        pygame.draw.rect(Board.screen, Board.BACKGROUND, black_rect)
+        pygame.draw.rect(Board.screen, Board.WHITE, back_button)
 
-            Board.screen.blit(back_text, back_text_rect)
-            Board.screen.blit(rendered_text, black_rect.topleft)
+        Board.screen.blit(back_text, back_text_rect)
+        Board.screen.blit(rendered_text, black_rect.topleft)
 
-            pygame.display.update()
-            pygame.display.flip()
+        pygame.display.update()
+        pygame.display.flip()
 
-            Board.clock.tick(60)
+        Board.clock.tick(60)
 
-        return
+        return 2
 
     @staticmethod
     def waiting_screen():
@@ -173,75 +174,59 @@ class Board:
         back_text_rect.centerx = back_button.centerx
         back_text_rect.centery = back_button.centery
 
-        carryon = True
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit(0)
 
-        while carryon:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
 
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_pos = event.pos
+                if back_button.collidepoint(mouse_pos):
+                    time.sleep(.200)
+                    return 1
 
-                    if back_button.collidepoint(mouse_pos):
-                        time.sleep(.200)
-                        #carryon = False
-                        Board.game_screen()
+        Board.screen.fill(Board.BACKGROUND)
+        Board.screen.blit(text, text_rect)
 
-            Board.screen.fill(Board.BACKGROUND)
-            Board.screen.blit(text, text_rect)
+        pygame.draw.rect(Board.screen, Board.WHITE, back_button)
+        Board.screen.blit(back_text, back_text_rect)
 
-            pygame.draw.rect(Board.screen, Board.WHITE, back_button)
-            Board.screen.blit(back_text, back_text_rect)
+        pygame.display.update()
+        pygame.display.flip()
 
-            pygame.display.update()
-            pygame.display.flip()
-
-            Board.clock.tick(60)
-        return
+        Board.clock.tick(60)
+        return 3
 
     @staticmethod
-    def game_screen():
+    def game_screen(deck, pile1, pile2, pile3, pile4, pile5, pile6, pile7, suit_stack1, suit_stack2, suit_stack3, suit_stack4):
         size = (800, 600)
         display_surface = pygame.Surface(size)
-        carryon = True
-        test_deck = [Card()]
-        test_holder1 = [Card()]
-        test_holder2 = [Card()]
-        test_holder3 = [Card()]
-        test_holder4 = [Card()]
-        test_pile1 = [Card()]
-        test_pile2 = [Card(), Card()]
-        test_pile3 = [Card(), Card(), Card()]
-        test_pile4 = [Card(), Card(), Card(), Card()]
-        test_pile5 = [Card(), Card(), Card(), Card(), Card()]
-        test_pile6 = [Card(), Card(), Card(), Card(), Card(), Card()]
-        test_pile7 = [Card(), Card(), Card(), Card(), Card(), Card(), Card()]
-        while carryon:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit(0)
 
-            Board.screen.fill(Board.BACKGROUND)
-            display_surface.fill(Board.BACKGROUND)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
 
-            Board.display_stack(test_deck, 0, display_surface)
-            Board.display_stack(test_pile1, 1, display_surface)
-            Board.display_stack(test_pile2, 2, display_surface)
-            Board.display_stack(test_pile3, 3, display_surface)
-            Board.display_stack(test_pile4, 4, display_surface)
-            Board.display_stack(test_pile5, 5, display_surface)
-            Board.display_stack(test_pile6, 6, display_surface)
-            Board.display_stack(test_pile7, 7, display_surface)
-            Board.display_stack(test_holder1, 8, display_surface)
-            Board.display_stack(test_holder2, 9, display_surface)
-            Board.display_stack(test_holder3, 10, display_surface)
-            Board.display_stack(test_holder4, 11, display_surface)
-            Board.screen.blit(display_surface, (0, 0))
-            pygame.display.update()
-            pygame.display.flip()
+        Board.screen.fill(Board.BACKGROUND)
+        display_surface.fill(Board.BACKGROUND)
 
-            Board.clock.tick(60)
+        Board.display_stack(deck, 0, display_surface)
+        Board.display_stack(pile1, 1, display_surface)
+        Board.display_stack(pile2, 2, display_surface)
+        Board.display_stack(pile3, 3, display_surface)
+        Board.display_stack(pile4, 4, display_surface)
+        Board.display_stack(pile5, 5, display_surface)
+        Board.display_stack(pile6, 6, display_surface)
+        Board.display_stack(pile7, 7, display_surface)
+        Board.display_stack(suit_stack1, 8, display_surface)
+        Board.display_stack(suit_stack2, 9, display_surface)
+        Board.display_stack(suit_stack3, 10, display_surface)
+        Board.display_stack(suit_stack4, 11, display_surface)
+        Board.screen.blit(display_surface, (0, 0))
+        pygame.display.update()
+        pygame.display.flip()
+
+        Board.clock.tick(60)
+        return 4
 
     @staticmethod
     def render_textrect(string, font, rect, text_color, background_color, justification=0):
