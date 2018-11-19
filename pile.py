@@ -7,15 +7,18 @@ class Pile:
     # Creates an empty pile of cards
     def __init__(self):
         self.cards = []
+        return
 
     def add(self, card_to_add):
         self.cards.append(card_to_add)
+        return
 
     # Adds a list of cards to the pile
     def add_to_stack(self, cards_to_add):
         if Pile.can_be_placed(self, cards_to_add):
             for card in cards_to_add:
                 self.add(self, card)
+        return
 
     # Removes a list of cards from the pile
     def remove(self, pos):

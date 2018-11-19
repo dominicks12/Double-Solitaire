@@ -36,8 +36,6 @@ class Board:
 
     @staticmethod
     def start():
-        carryon = True
-
         # Text Surface
         basic_font = pygame.font.SysFont(None, 100)
         text = basic_font.render("Double Solitaire", True, Board.BLACK, Board.BACKGROUND)
@@ -183,7 +181,7 @@ class Board:
 
                 if back_button.collidepoint(mouse_pos):
                     time.sleep(.200)
-                    return 1
+                    return 4
 
         Board.screen.fill(Board.BACKGROUND)
         Board.screen.blit(text, text_rect)
@@ -202,9 +200,25 @@ class Board:
         size = (800, 600)
         display_surface = pygame.Surface(size)
 
+        # Back Button
+        quit_button = pygame.Rect(25, 25, 50, 20)
+
+        # startText Button
+        basic_font_small = pygame.font.SysFont(None, 24)
+        quit_text = basic_font_small.render("Quit", True, Board.BLACK, (275, 250))
+        quit_text_rect = quit_text.get_rect()
+        quit_text_rect.centerx = quit_button.centerx
+        quit_text_rect.centery = quit_button.centery
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
+                if quit_button.collidepoint(mouse_pos):
+                    time.sleep(.200)
+                    return 1
 
         Board.screen.fill(Board.BACKGROUND)
         display_surface.fill(Board.BACKGROUND)
@@ -222,6 +236,9 @@ class Board:
         Board.display_stack(suit_stack3, 10, display_surface)
         Board.display_stack(suit_stack4, 11, display_surface)
         Board.screen.blit(display_surface, (0, 0))
+
+        pygame.draw.rect(Board.screen, Board.WHITE, quit_button)
+        Board.screen.blit(quit_text, quit_text_rect)
         pygame.display.update()
         pygame.display.flip()
 
@@ -300,7 +317,7 @@ class Board:
         card_image = pygame.transform.scale(card_image, (80, 105))
 
         surf.blit(card_image, (x_pos, y_pos))
-
+        return
 
     @staticmethod
     def display_card_back(x_pos, y_pos, surf):
@@ -309,6 +326,16 @@ class Board:
         card_image = pygame.transform.scale(card_image, (80, 105))
 
         surf.blit(card_image, (x_pos, y_pos))
+        return
+
+    @staticmethod
+    def display_empty_suit_stack(x_pos, y_pos, surf):
+        outer_rect = (x_pos, y_pos, 80, 105)
+        inner_rect = (x_pos + 5, y_pos + 5, 70, 95)
+        pygame.draw.rect(surf, Board.WHITE, outer_rect)
+        pygame.draw.rect(surf, Board.BACKGROUND, inner_rect)
+
+        return
 
     @staticmethod
     def display_stack(card_stack, num_stack, surf):
@@ -317,17 +344,23 @@ class Board:
             y_pos = 50
             Board.display_card_back(x_pos, y_pos, surf)
         if num_stack > 7 & num_stack < 12:
+            cards = card_stack.get_cards()
             x_pos = ((num_stack - 7) * 110)+200
             y_pos = 50
-            Board.display_card(card_stack.__getitem__(len(card_stack) - 1), x_pos, y_pos, surf)
+            if not(card_stack.is_empty()):
+                Board.display_card(cards.__getitem__(len(cards) - 1), x_pos, y_pos, surf)
+            else:
+                Board.display_empty_suit_stack(x_pos, y_pos, surf)
         if num_stack > 0 & num_stack < 8:
+            cards = card_stack.get_cards()
             x_pos = ((num_stack - 1) * 110) + 25
             y_pos = pygame.display.get_surface().get_height() * (1/3) - 20
             count = 0
-            while count <= len(card_stack) - 1:
+            while count <= len(cards) - 1:
                 y_pos = y_pos + 25
-                if count == len(card_stack) - 1:
-                    Board.display_card(card_stack.__getitem__(count), x_pos, y_pos, surf)
+                if count == len(cards) - 1:
+                    Board.display_card(cards.__getitem__(count), x_pos, y_pos, surf)
                 else:
                     Board.display_card_back(x_pos, y_pos, surf)
                 count = count + 1
+        return

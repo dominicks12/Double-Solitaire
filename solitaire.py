@@ -1,6 +1,7 @@
 import pygame
 import sys
 from deck import Deck
+from pile import Pile
 from board1 import Board
 
 pygame.init()
@@ -8,18 +9,18 @@ pygame.init()
 
 class Solitaire:
 
-    row1 = []
-    row2 = []
-    row3 = []
-    row4 = []
-    row5 = []
-    row6 = []
-    row7 = []
+    col1 = Pile()
+    col2 = Pile()
+    col3 = Pile()
+    col4 = Pile()
+    col5 = Pile()
+    col6 = Pile()
+    col7 = Pile()
 
-    suit_row1 = []
-    suit_row2 = []
-    suit_row3 = []
-    suit_row4 = []
+    suit_stack_1 = Pile()
+    suit_stack_2 = Pile()
+    suit_stack_3 = Pile()
+    suit_stack_4 = Pile()
 
     deck = Deck()
 
@@ -27,36 +28,36 @@ class Solitaire:
         return
 
     def deal(self):
-        self.row1.append(self.deck.remove_card())
+        self.col1.add(self.deck.remove_card())
 
         count = 0
         while count < 2:
-            self.row2.append(self.deck.remove_card())
+            self.col2.add(self.deck.remove_card())
             count = count + 1
 
         count = 0
         while count < 3:
-            self.row3.append(self.deck.remove_card())
+            self.col3.add(self.deck.remove_card())
             count = count + 1
 
         count = 0
         while count < 4:
-            self.row4.append(self.deck.remove_card())
+            self.col4.add(self.deck.remove_card())
             count = count + 1
 
         count = 0
         while count < 5:
-            self.row5.append(self.deck.remove_card())
+            self.col5.add(self.deck.remove_card())
             count = count + 1
 
         count = 0
         while count < 6:
-            self.row6.append(self.deck.remove_card())
+            self.col6.add(self.deck.remove_card())
             count = count + 1
 
         count = 0
         while count < 7:
-            self.row7.append(self.deck.remove_card())
+            self.col7.add(self.deck.remove_card())
             count = count + 1
 
     def draw_deck(self, card_to_add_back):
@@ -82,4 +83,6 @@ class Solitaire:
                 screen_num = board.waiting_screen()
 
             if screen_num == 4:
-                screen_num = board.game_screen()
+                screen_num = board.game_screen(self.deck, self.col1, self.col2, self.col3, self.col4, self.col5,
+                                               self.col6, self.col7, self.suit_stack_1, self.suit_stack_2,
+                                               self.suit_stack_3, self.suit_stack_4)
