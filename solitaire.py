@@ -3,6 +3,12 @@ import sys
 from deck import Deck
 from pile import Pile
 from board1 import Board
+from socket import *
+
+serverName = '0.tcp.ngrok.io'
+serverPort = 11517
+clientSocket = socket(AF_INET, SOCK_STREAM)
+clientSocket.connect((serverName, serverPort))
 
 pygame.init()
 
