@@ -317,7 +317,7 @@ class Board:
         card_image = pygame.transform.scale(card_image, (80, 105))
 
         surf.blit(card_image, (x_pos, y_pos))
-        return
+        return card_image
 
     @staticmethod
     def display_card_back(x_pos, y_pos, surf):
@@ -358,9 +358,65 @@ class Board:
             count = 0
             while count <= len(cards) - 1:
                 y_pos = y_pos + 25
-                if count == len(cards) - 1:
+                if cards.__getitem__(count).get_flipped():
                     Board.display_card(cards.__getitem__(count), x_pos, y_pos, surf)
                 else:
                     Board.display_card_back(x_pos, y_pos, surf)
                 count = count + 1
         return
+
+    @staticmethod
+    def move_card(card, surf):
+        cont = True
+        dragging = False
+
+        while cont:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    cont = False
+
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    dragging = True
+
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    dragging = False
+
+                elif event.type == pygame.MOUSEMOTION:
+                    if dragging:
+                        mouse_pos = event.pos
+                        surf.blit(card, mouse_pos)
+            Board.screen.blit(surf, (0, 0))
+            pygame.display.update()
+            #pygame.display.flip()
+        return
+
+    @staticmethod
+    def get_card_hover(mouse_pos):
+        x_pos = mouse_pos[0]
+        y_pos = mouse_pos[1]
+
+        if(y_pos >= 50 & y_pos <= 155):
+            implementLater = True
+
+        if(y_pos >= 180):
+            num1 = x_pos
+            count1 = 0
+
+            while num1 >= 110:
+                num1 = num1 - 110
+                count = count + 1
+
+            if num1 >= 25:
+                stack_number = count
+
+            num2 = y_pos
+            count2 = 0
+
+            while num2 >= 180:
+                num2 = num2 - 25
+                count2 = count2 + 1
+
+
+
+
+

@@ -44,5 +44,16 @@
 ### Any blocking issues challenges that need to be addressed
 * No new challenges
 
+## Week 4 (Nov 12th - Nov 19th)
+
+### What did your team do last week?
+* Developed the display for the solitaire game
+
+### What will you do this week?
+* Finish the GUI
+
+### Any blocking issues challenges that need to be addressed?
+* There is a problem where moving a card creates a trail of duplicates
+
 # Comments
 1. Make sure you push code to master often. As long as you get done with one part, push the completed code to master and move on to the next rather than waiting to finish a big chunk then push

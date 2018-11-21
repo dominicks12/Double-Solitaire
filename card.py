@@ -2,8 +2,10 @@ from Rank import Rank
 from Rank import Suit
 import random
 
-# ADD A TO STRING METHOD
+
 class Card:
+
+    flipped = False
 
     def __init__(self):
         num1 = random.randint(1, 13)
@@ -46,6 +48,9 @@ class Card:
     def get_suit_color(self):
         return self.suit.value[1]
 
+    def get_flipped(self):
+        return self.flipped
+
     @staticmethod
     def compare_rank(card1, card2):
         """
@@ -69,3 +74,7 @@ class Card:
             if card1.get_suit.value[0] == card2.get_suit.value[0]:
                 return True
         return False
+
+    def change_flipped(self):
+        self.flipped = True
+        return

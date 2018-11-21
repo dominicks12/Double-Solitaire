@@ -2,6 +2,7 @@ import pygame
 import sys
 from deck import Deck
 from pile import Pile
+from card import Card
 from board1 import Board
 from socket import *
 
@@ -35,36 +36,43 @@ class Solitaire:
 
     def deal(self):
         self.col1.add(self.deck.remove_card())
+        self.col1.get_cards().__getitem__(len(self.col1.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 2:
             self.col2.add(self.deck.remove_card())
             count = count + 1
+        self.col2.get_cards().__getitem__(len(self.col2.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 3:
             self.col3.add(self.deck.remove_card())
             count = count + 1
+        self.col3.get_cards().__getitem__(len(self.col3.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 4:
             self.col4.add(self.deck.remove_card())
             count = count + 1
+        self.col4.get_cards().__getitem__(len(self.col4.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 5:
             self.col5.add(self.deck.remove_card())
             count = count + 1
+        self.col5.get_cards().__getitem__(len(self.col5.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 6:
             self.col6.add(self.deck.remove_card())
             count = count + 1
+        self.col6.get_cards().__getitem__(len(self.col6.get_cards()) - 1).change_flipped()
 
         count = 0
         while count < 7:
             self.col7.add(self.deck.remove_card())
             count = count + 1
+        self.col7.get_cards().__getitem__(len(self.col7.get_cards()) - 1).change_flipped()
 
     def draw_deck(self, card_to_add_back):
         self.deck.add_back(card_to_add_back)

@@ -42,7 +42,7 @@ class Pile:
         card_pos = 0
 
         #Checks that stack_of_cards is in consecutive descending order
-        while count > 0:
+        while count > 0 & card_pos < len(stack_of_cards) - 1:
             curr_card = stack_of_cards[card_pos]
             next_card = stack_of_cards[card_pos + 1]
             if curr_card.get_rank_value() - 1 != next_card.get_rank_value():
@@ -54,7 +54,7 @@ class Pile:
         card_pos = 0
 
         #Checks that stack_or_cards is in alternating color order
-        while count > 0:
+        while count > 0 & card_pos < len(stack_of_cards) - 1:
             curr_card = stack_of_cards[card_pos]
             next_card = stack_of_cards[card_pos + 1]
             if curr_card.get_suit_color == next_card.get_suit_color:

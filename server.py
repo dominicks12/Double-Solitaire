@@ -5,6 +5,7 @@ serverSocket = socket(AF_INET, SOCK_STREAM)
 serverSocket.bind(("", serverPort))
 serverSocket.listen(1)
 
-connectionSocket, addr = serverSocket.accept()
-welcome = "Welcome to double solitaire"
-connectionSocket.send(welcome.encode())
+connectionSocket1, addr = serverSocket.accept()
+connectionSocket1.send("Start".encode())
+
+connectionSocket2, addr = serverSocket.accept()
