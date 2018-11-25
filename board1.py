@@ -25,6 +25,7 @@ class Board:
     GREEN = (0, 255, 0)
     RED = (255, 0, 0)
     BLUE = (0, 0, 255)
+    HIGHLIGHT = (193, 217, 255)
     BACKGROUND = (26, 155, 43)
 
     # Open a window
@@ -104,13 +105,9 @@ class Board:
 
     @staticmethod
     def instruction_screen():
-        #Back Button
+        # Back Button
         back_button = pygame.Rect(25, 25, 150, 25)
-
-        #Background box
-        black_rect = pygame.Rect(125, 25, 450, 450)
-
-        #Text
+        # Text
         my_string = "Race against your opponent to see who can solve the " \
                     "game of solitaire first. Each player is distributed " \
                     "an identical solitaires layout, the player with the " \
@@ -162,7 +159,7 @@ class Board:
         text_rect.centerx = Board.screen.get_rect().centerx
         text_rect.centery = 150
 
-        #Button
+        # Button
         back_button = pygame.Rect((pygame.display.get_surface().get_width() / 2)-75, 250, 150, 25)
 
         # startText Button
@@ -196,7 +193,8 @@ class Board:
         return 3
 
     @staticmethod
-    def game_screen(deck, pile1, pile2, pile3, pile4, pile5, pile6, pile7, suit_stack1, suit_stack2, suit_stack3, suit_stack4):
+    def game_screen(deck, pile1, pile2, pile3, pile4, pile5, pile6, pile7,
+                    suit_stack1, suit_stack2, suit_stack3, suit_stack4):
         size = (800, 600)
         display_surface = pygame.Surface(size)
 
@@ -235,8 +233,8 @@ class Board:
         Board.display_stack(suit_stack2, 9, display_surface)
         Board.display_stack(suit_stack3, 10, display_surface)
         Board.display_stack(suit_stack4, 11, display_surface)
-        Board.screen.blit(display_surface, (0, 0))
 
+        Board.screen.blit(display_surface, (0, 0))
         pygame.draw.rect(Board.screen, Board.WHITE, quit_button)
         Board.screen.blit(quit_text, quit_text_rect)
         pygame.display.update()
@@ -303,7 +301,7 @@ class Board:
         card_suit = card.get_suit_name()
         card_value = card.get_rank_value()
 
-        if card_value == 0:
+        if card_value == 1:
             card_value = "ace"
         if card_value == 11:
             card_value = "jack"
@@ -317,7 +315,31 @@ class Board:
         card_image = pygame.transform.scale(card_image, (80, 105))
 
         surf.blit(card_image, (x_pos, y_pos))
-        return card_image
+        return
+
+    @staticmethod
+    def display_card_highlighted(card, x_pos, y_pos, surf):
+        card_suit = card.get_suit_name()
+        card_value = card.get_rank_value()
+
+        if card_value == 1:
+            card_value = "ace"
+        if card_value == 11:
+            card_value = "jack"
+        if card_value == 12:
+            card_value = "queen"
+        if card_value == 13:
+            card_value = "king"
+
+        card_name = "PNG-cards-1.3\\" + str(card_value) + "_of_" + str(card_suit) + ".png"
+        card_image = pygame.image.load(card_name)
+        card_image = pygame.transform.scale(card_image, (80, 105))
+
+        highlight_rect = (x_pos - 5, y_pos - 5, 90, 115)
+
+        pygame.draw.rect(surf, Board.HIGHLIGHT, highlight_rect)
+        surf.blit(card_image, (x_pos, y_pos))
+        return
 
     @staticmethod
     def display_card_back(x_pos, y_pos, surf):
@@ -358,8 +380,11 @@ class Board:
             count = 0
             while count <= len(cards) - 1:
                 y_pos = y_pos + 25
-                if cards.__getitem__(count).get_flipped():
-                    Board.display_card(cards.__getitem__(count), x_pos, y_pos, surf)
+                if cards.__getitem__(count).is_flipped():
+                    if cards.__getitem__(count).is_highlighted():
+                        Board.display_card_highlighted(cards.__getitem__(count), x_pos, y_pos, surf)
+                    else:
+                        Board.display_card(cards.__getitem__(count), x_pos, y_pos, surf)
                 else:
                     Board.display_card_back(x_pos, y_pos, surf)
                 count = count + 1
@@ -367,56 +392,56 @@ class Board:
 
     @staticmethod
     def move_card(card, surf):
-        cont = True
         dragging = False
 
-        while cont:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    cont = False
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                dragging = True
 
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    dragging = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                dragging = False
 
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    dragging = False
-
-                elif event.type == pygame.MOUSEMOTION:
-                    if dragging:
-                        mouse_pos = event.pos
-                        surf.blit(card, mouse_pos)
-            Board.screen.blit(surf, (0, 0))
-            pygame.display.update()
-            #pygame.display.flip()
+            elif event.type == pygame.MOUSEMOTION:
+                if dragging:
+                    mouse_pos = event.pos
+                    surf.blit(card, mouse_pos)
         return
 
     @staticmethod
-    def get_card_hover(mouse_pos):
-        x_pos = mouse_pos[0]
-        y_pos = mouse_pos[1]
+    def get_card_hover():
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
 
-        if(y_pos >= 50 & y_pos <= 155):
-            implementLater = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = event.pos
 
-        if(y_pos >= 180):
-            num1 = x_pos
-            count1 = 0
+                x_pos = mouse_pos[0]
+                y_pos = mouse_pos[1]
 
-            while num1 >= 110:
-                num1 = num1 - 110
-                count = count + 1
+                if y_pos < 180:
+                    return [0, -1]
 
-            if num1 >= 25:
-                stack_number = count
+                if y_pos >= 180:
+                    num1 = x_pos
+                    count1 = 0
 
-            num2 = y_pos
-            count2 = 0
+                    if num1 > 25 or num1 < 795:
+                        while num1 >= 25:
+                            num1 = num1 - 110
+                            count1 = count1 + 1
+                        stack_number = count1
+                    else:
+                        stack_number = -1
 
-            while num2 >= 180:
-                num2 = num2 - 25
-                count2 = count2 + 1
+                    num2 = y_pos
+                    count2 = -1
 
+                    while num2 >= 180:
+                        num2 = num2 - 25
+                        count2 = count2 + 1
 
+                    card_num = count2
+                return [stack_number, card_num]
 
-
-
+        return [-1, -1]
