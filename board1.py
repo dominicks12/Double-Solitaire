@@ -151,7 +151,7 @@ class Board:
         return 2
 
     @staticmethod
-    def waiting_screen():
+    def waiting_screen(clientSocket, player_num):
         # Text Surface
         basic_font = pygame.font.SysFont(None, 48)
         text = basic_font.render("waiting for other player", True, Board.BLACK, Board.BACKGROUND)
@@ -190,11 +190,26 @@ class Board:
         pygame.display.flip()
 
         Board.clock.tick(60)
+        if clientSocket.recv(1024).decode() == "Welcome":
+            if clientSocket.recv(1024).decode() == "1":
+                player_num = 1
+            else:
+                player_num = 2
+            if clientSocket.recv(1024).decode() == "Other player connected":
+                count = 5
+                while not clientSocket.recv(1024).decode() == "Game starting in 0":
+                    text = basic_font.render(("Game starting in " + count), True, Board.BLACK, Board.BACKGROUND)
+                    text_rect = text.get_rect()
+                    text_rect.centerx = Board.screen.get_rect().centerx
+                    text_rect.centery = 150
+                    count = count - 1
+                return 4
         return 3
 
     @staticmethod
     def game_screen(deck, pile1, pile2, pile3, pile4, pile5, pile6, pile7,
-                    suit_stack1, suit_stack2, suit_stack3, suit_stack4):
+                    suit_stack1, suit_stack2, suit_stack3, suit_stack4, my_score,
+                    opponent_score, elapsed_time):
         size = (800, 600)
         display_surface = pygame.Surface(size)
 
@@ -216,7 +231,7 @@ class Board:
                 mouse_pos = event.pos
                 if quit_button.collidepoint(mouse_pos):
                     time.sleep(.200)
-                    return 1
+                    return -1
 
         Board.screen.fill(Board.BACKGROUND)
         display_surface.fill(Board.BACKGROUND)
@@ -242,6 +257,27 @@ class Board:
 
         Board.clock.tick(60)
         return 4
+
+    @staticmethod
+    def winning_screen(winner):
+        basic_font = pygame.font.SysFont(None, 48)
+        text = basic_font.render(winner, True, Board.BLACK, Board.BACKGROUND)
+        text_rect = text.get_rect()
+        text_rect.centerx = Board.screen.get_rect().centerx
+        text_rect.centery = 150
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit(0)
+
+            Board.screen.fill(Board.BACKGROUND)
+            Board.screen.blit(text, text_rect)
+
+            Board.screen.blit(text, text_rect)
+
+            pygame.display.update()
+            pygame.display.flip()
 
     @staticmethod
     def render_textrect(string, font, rect, text_color, background_color, justification=0):
