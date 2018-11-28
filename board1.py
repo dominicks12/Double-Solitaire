@@ -209,7 +209,7 @@ class Board:
     @staticmethod
     def game_screen(deck, pile1, pile2, pile3, pile4, pile5, pile6, pile7,
                     suit_stack1, suit_stack2, suit_stack3, suit_stack4, my_score,
-                    opponent_score, elapsed_time):
+                    opponent_score, elapsed_time, player_num):
         size = (800, 600)
         display_surface = pygame.Surface(size)
 
@@ -222,6 +222,48 @@ class Board:
         quit_text_rect = quit_text.get_rect()
         quit_text_rect.centerx = quit_button.centerx
         quit_text_rect.centery = quit_button.centery
+
+        # score rectangles
+        score_1 = pygame.Rect(650, 0, 50, 50)
+        score_2 = pygame.Rect(725, 0, 50, 50)
+
+        # time rectangle
+        game_time = pygame.Rect(300, 0, 200, 50)
+
+        # font and text
+        basic_font_small = pygame.font.SysFont(None, 24)
+        smaller_font = pygame.font.SysFont(None, 14)
+        bigger_font = pygame.font.SysFont(None, 35)
+        score_1_text = basic_font_small.render(str(my_score), True, Board.WHITE, (245, 275))
+        score_2_text = basic_font_small.render(str(opponent_score), True, Board.WHITE, (245, 275))
+        player_1_text = smaller_font.render("You", True, Board.WHITE, (245, 275))
+        player_2_text = smaller_font.render(("Player " + str(player_num)), True, Board.WHITE, (245, 275))
+        game_time_text = bigger_font.render(str(elapsed_time), True, Board.WHITE, (0, 0))
+
+        # game_time
+        game_time_text_rect = game_time_text.get_rect()
+        game_time_text_rect.centerx = game_time.centerx
+        game_time_text_rect.centery = game_time.centery
+
+        # score_1
+        score_1_text_rect = score_1_text.get_rect()
+        score_1_text_rect.centerx = score_1.centerx
+        score_1_text_rect.centery = score_1.centery
+
+        # player_1
+        player_1_text_rect = player_1_text.get_rect()
+        player_1_text_rect.centerx = score_1.centerx
+        player_1_text_rect.centery = score_1.centery - (score_1.centery / 2)
+
+        # score_2
+        score_2_text_rect = score_1_text.get_rect()
+        score_2_text_rect.centerx = score_2.centerx
+        score_2_text_rect.centery = score_2.centery
+
+        # Player_2
+        player_2_text_rect = player_1_text.get_rect()
+        player_2_text_rect.centerx = score_2.centerx - 7
+        player_2_text_rect.centery = score_2.centery - (score_2.centery / 2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -252,6 +294,14 @@ class Board:
         Board.screen.blit(display_surface, (0, 0))
         pygame.draw.rect(Board.screen, Board.WHITE, quit_button)
         Board.screen.blit(quit_text, quit_text_rect)
+        pygame.draw.rect(Board.screen, Board.BLACK, score_1)
+        Board.screen.blit(score_1_text, score_1_text_rect, )
+        Board.screen.blit(player_1_text, player_1_text_rect)
+        pygame.draw.rect(Board.screen, Board.BLACK, score_2)
+        Board.screen.blit(score_2_text, score_2_text_rect, )
+        Board.screen.blit(player_2_text, player_2_text_rect)
+        pygame.draw.rect(Board.screen, Board.BLACK, game_time)
+        Board.screen.blit(game_time_text, game_time_text_rect)
         pygame.display.update()
         pygame.display.flip()
 

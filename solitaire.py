@@ -8,7 +8,7 @@ from board1 import Board
 from socket import *
 
 serverName = '0.tcp.ngrok.io'
-serverPort = 18875
+serverPort = 11172
 clientSocket = socket(AF_INET, SOCK_STREAM)
 clientSocket.connect((serverName, serverPort))
 
@@ -236,8 +236,8 @@ class Solitaire:
                 screen_num = board.game_screen(self.deck, self.col1, self.col2, self.col3, self.col4, self.col5,
                                                self.col6, self.col7, self.suit_stack_1, self.suit_stack_2,
                                                self.suit_stack_3, self.suit_stack_4, self.my_score, self.opponent_score,
-                                               self.elapsed_time)
-            print(cards_to_highlight)
+                                               self.elapsed_time, self.player_num)
+            # print(cards_to_highlight)
             if cards_to_highlight.__getitem__(0) == -1:
                 cards_to_highlight = Board.get_card_hover()
                 highlighted_cards = Solitaire.highlight_cards(self, cards_to_highlight)
@@ -316,15 +316,15 @@ class Solitaire:
             self.flip_cards(self)
 
             if self.player_num == 1:
-                self.my_score = clientSocket.recv(1024)
-                self.opponent_score = clientSocket.recv(1024)
-                self.elapsed_time = clientSocket.recv(1024)
-                self.status = clientSocket.recv(1024)
+                self.my_score = clientSocket.recv(1024).decode()
+                self.opponent_score = clientSocket.recv(1024).decode()
+                self.elapsed_time = clientSocket.recv(1024).decode()
+                self.status = clientSocket.recv(1024).decode()
             elif self.player_num == 2:
-                self.opponent_score = clientSocket.recv(1024)
-                self.my_score = clientSocket.recv(1024)
-                self.elapsed_time = clientSocket.recv(1024)
-                self.status = clientSocket.recv(1024)
+                self.opponent_score = clientSocket.recv(1024).decode()
+                self.my_score = clientSocket.recv(1024).decode()
+                self.elapsed_time = clientSocket.recv(1024).decode()
+                self.status = clientSocket.recv(1024).decode()
 
         winner = clientSocket.recv(1024).decode()
         Board.winning_screen(winner)
