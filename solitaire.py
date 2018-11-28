@@ -6,6 +6,7 @@ from pile import Pile
 from card import Card
 from board1 import Board
 from socket import *
+import pickle
 
 serverName = '0.tcp.ngrok.io'
 serverPort = 11172
@@ -30,11 +31,12 @@ class Solitaire:
     suit_stack_3 = Pile()
     suit_stack_4 = Pile()
 
+    player_num = clientSocket.recv(2000).decode()
+    # deck = pickle.loads(clientSocket.recv(10000))
     deck = Deck()
 
     cards_highlighted = False
 
-    player_num = 0
     my_score = 0
     opponent_score = 0
     elapsed_time = 0

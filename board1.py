@@ -190,20 +190,6 @@ class Board:
         pygame.display.flip()
 
         Board.clock.tick(60)
-        if clientSocket.recv(1024).decode() == "Welcome":
-            if clientSocket.recv(1024).decode() == "1":
-                player_num = 1
-            else:
-                player_num = 2
-            if clientSocket.recv(1024).decode() == "Other player connected":
-                count = 5
-                while not clientSocket.recv(1024).decode() == "Game starting in 0":
-                    text = basic_font.render(("Game starting in " + count), True, Board.BLACK, Board.BACKGROUND)
-                    text_rect = text.get_rect()
-                    text_rect.centerx = Board.screen.get_rect().centerx
-                    text_rect.centery = 150
-                    count = count - 1
-                return 4
         return 3
 
     @staticmethod
