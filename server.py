@@ -12,7 +12,8 @@ def new_client(clientSocket, this_client_num, this_score1, this_score2):
 
     global player1_status
     global player2_status
-    global player_deck
+    global score1
+    global score2
 
     # deck = pickle.dumps(player_deck)
     # clientSocket.send(deck)
@@ -26,23 +27,23 @@ def new_client(clientSocket, this_client_num, this_score1, this_score2):
         if not score_update == "-1":
             if score_update == "5":
                 if this_client_num == 1:
-                    this_score1 = this_score1 + 5
+                    score1 = score1 + 5
                     print("made it here" + str(this_score1))
                 if this_client_num == 2:
-                    this_score2 = this_score2 + 5
+                    score2 = score2 + 5
                     print("made it here" + str(this_score2))
             elif score_update == "10":
                 if this_client_num == 1:
-                    this_score1 = this_score1 + 10
+                    score1 = score1 + 10
                 if this_client_num == 2:
-                    this_score2 = this_score2 + 10
+                    score2 = score2 + 10
 
-            message = clientSocket.recv(1024).decode()
+            message = clientSocket.recv(1024).decode('utf-8')
             if message == "ready":
                 time.sleep(.1)
-                clientSocket.send(str(this_score1).encode())
+                clientSocket.send(str(score1).encode())
                 time.sleep(.1)
-                clientSocket.send(str(this_score2).encode())
+                clientSocket.send(str(score2).encode())
 
                 curr_time = time.clock()
                 elapsed_time = curr_time - start_time
@@ -57,7 +58,6 @@ def new_client(clientSocket, this_client_num, this_score1, this_score2):
                 # player1_status = clientSocket.recv(2000).decode()
             # elif client_num == 2:
                 # player2_status = clientSocket.recv(2000).decode()
-
 
     if player1_status == "quit":
         clientSocket.send("Player 1 has quit the game.".encode())
