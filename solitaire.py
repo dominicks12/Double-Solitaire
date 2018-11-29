@@ -13,7 +13,7 @@ pygame.init()
 
 class Solitaire:
     serverName = '0.tcp.ngrok.io'
-    serverPort = 19060
+    serverPort = 15043
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect((serverName, serverPort))
 
