@@ -13,7 +13,7 @@ pygame.init()
 
 class Solitaire:
     serverName = '0.tcp.ngrok.io'
-    serverPort = 18060
+    serverPort = 19060
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect((serverName, serverPort))
 
@@ -208,147 +208,148 @@ class Solitaire:
             self.col7.get_cards().__getitem__(len(self.col7.get_cards()) - 1).change_flipped()
 
     def start(self):
-        self.deal(self)
+        self.deal()
         board = Board()
         screen_num = 1
         cards_to_highlight = [-1, -1]
         print(self.player_num)
         while self.status == "continue":
-            try:
-                if screen_num == -1:
-                    self.clientSocket.send("-1".encode())
-                    self.status == "quit"
+            if screen_num == -1:
+                self.clientSocket.send("-1".encode())
+                self.status == "quit"
 
-                if screen_num == 0:
-                    sys.exit(0)
+            if screen_num == 0:
+                sys.exit(0)
 
-                if screen_num == 1:
-                    time.sleep(.1)
-                    screen_num = board.start()
+            if screen_num == 1:
+                time.sleep(.1)
+                screen_num = board.start()
 
-                if screen_num == 2:
-                    time.sleep(.1)
-                    screen_num = board.instruction_screen()
+            if screen_num == 2:
+                time.sleep(.1)
+                screen_num = board.instruction_screen()
 
-                if screen_num == 3:
-                    time.sleep(.1)
-                    screen_num = board.waiting_screen(self.clientSocket, self.player_num)
+            if screen_num == 3:
+                time.sleep(.1)
+                screen_num = board.waiting_screen(self.clientSocket, self.player_num)
 
-                if screen_num == 4:
-                    time.sleep(.1)
-                    screen_num = board.game_screen(self.deck, self.col1, self.col2, self.col3, self.col4, self.col5,
-                                                   self.col6, self.col7, self.suit_stack_1, self.suit_stack_2,
-                                                   self.suit_stack_3, self.suit_stack_4, self.my_score, self.opponent_score,
-                                                   self.elapsed_time, self.player_num)
-                # print(cards_to_highlight)
-                if cards_to_highlight.__getitem__(0) == -1:
-                    cards_to_highlight = Board.get_card_hover()
-                    highlighted_cards = Solitaire.highlight_cards(self, cards_to_highlight)
-                    self.clientSocket.send("0".encode())
-                elif not cards_to_highlight.__getitem__(0) == -1:
-                    if self.cards_highlighted:
-                        card_coordinates = Board.get_card_hover()
-                        if card_coordinates.__getitem__(0) > 0 and card_coordinates.__getitem__(0) < 8:
-                            cards_to_move_to = card_coordinates.__getitem__(0)
-                            cards_to_move = highlighted_cards
+            if screen_num == 4:
+                time.sleep(.1)
+                screen_num = board.game_screen(self.deck, self.col1, self.col2, self.col3, self.col4, self.col5,
+                                               self.col6, self.col7, self.suit_stack_1, self.suit_stack_2,
+                                               self.suit_stack_3, self.suit_stack_4, self.my_score, self.opponent_score,
+                                               self.elapsed_time, self.player_num)
+            # print(cards_to_highlight)
+            if cards_to_highlight.__getitem__(0) == -1:
+                cards_to_highlight = Board.get_card_hover()
+                highlighted_cards = Solitaire.highlight_cards(self, cards_to_highlight)
+                self.clientSocket.send("0".encode())
+            elif not cards_to_highlight.__getitem__(0) == -1:
+                if self.cards_highlighted:
+                    card_coordinates = Board.get_card_hover()
+                    if card_coordinates.__getitem__(0) > 0 and card_coordinates.__getitem__(0) < 8:
+                        cards_to_move_to = card_coordinates.__getitem__(0)
+                        cards_to_move = highlighted_cards
 
-                            if Pile.can_be_moved(cards_to_move):
-                                if cards_to_move_to == 1:
-                                    if Pile.can_be_placed(self.col1, cards_to_move):
-                                        self.col1.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 2:
-                                    if Pile.can_be_placed(self.col2, cards_to_move):
-                                        self.col2.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 3:
-                                    if Pile.can_be_placed(self.col3, cards_to_move):
-                                        self.col3.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        time.sleep(1)
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        time.sleep(1)
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 4:
-                                    if Pile.can_be_placed(self.col4, cards_to_move):
-                                        self.col4.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 5:
-                                    if Pile.can_be_placed(self.col5, cards_to_move):
-                                        self.col5.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 6:
-                                    if Pile.can_be_placed(self.col6, cards_to_move):
-                                        self.col6.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                                elif cards_to_move_to == 7:
-                                    if Pile.can_be_placed(self.col7, cards_to_move):
-                                        self.col7.add_to_stack(cards_to_move)
-                                        self.remove_cards(self, cards_to_highlight, len(cards_to_move))
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("5".encode())
-                                    else:
-                                        cards_to_highlight = [-1, -1]
-                                        self.clientSocket.send("0".encode())
-                            else:
-                                self.clientSocket.send("0".encode())
+                        if Pile.can_be_moved(cards_to_move):
+                            if cards_to_move_to == 1:
+                                if Pile.can_be_placed(self.col1, cards_to_move):
+                                    self.col1.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 2:
+                                if Pile.can_be_placed(self.col2, cards_to_move):
+                                    self.col2.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 3:
+                                if Pile.can_be_placed(self.col3, cards_to_move):
+                                    self.col3.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 4:
+                                if Pile.can_be_placed(self.col4, cards_to_move):
+                                    self.col4.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 5:
+                                if Pile.can_be_placed(self.col5, cards_to_move):
+                                    self.col5.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 6:
+                                if Pile.can_be_placed(self.col6, cards_to_move):
+                                    self.col6.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
+                            elif cards_to_move_to == 7:
+                                if Pile.can_be_placed(self.col7, cards_to_move):
+                                    self.col7.add_to_stack(cards_to_move)
+                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("5".encode())
+                                else:
+                                    cards_to_highlight = [-1, -1]
+                                    self.clientSocket.send("0".encode())
                         else:
                             self.clientSocket.send("0".encode())
+                    else:
+                        self.clientSocket.send("0".encode())
+
+            self.flip_cards()
 
 
-                self.flip_cards(self)
-
+            if self.player_num == "1":
+                print("made it to recieving")
                 self.clientSocket.send("ready".encode())
-                if self.player_num == "1":
-                    print("made it to recieving")
-                    self.my_score = self.clientSocket.recv(1024).decode('utf-8')
-                    self.opponent_score = self.clientSocket.recv(1024).decode('utf-8')
-                    self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
-                    self.status = self.clientSocket.recv(1024).decode('utf-8')
-                    print(self.my_score)
-                    print(self.opponent_score)
-                    print(self.elapsed_time)
-                    print(self.status)
-                elif self.player_num == "2":
-                    self.opponent_score = self.clientSocket.recv(1024).decode('utf-8')
-                    self.my_score = self.clientSocket.recv(1024).decode('utf-8')
-                    self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
-                    self.status = self.clientSocket.recv(1024).decode('utf-8')
-                    print(self.my_score)
-                    print(self.opponent_score)
-                    print(self.elapsed_time)
-                    print(self.status)
-
-            except OSError as error:
-                num = 1
+                self.my_score = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.opponent_score = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.status = self.clientSocket.recv(1024).decode('utf-8')
+                print(self.my_score)
+                print(self.opponent_score)
+                print(self.elapsed_time)
+                print(self.status)
+            elif self.player_num == "2":
+                self.clientSocket.send("ready".encode())
+                self.opponent_score = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.my_score = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
+                self.clientSocket.send("ready".encode())
+                self.status = self.clientSocket.recv(1024).decode('utf-8')
+                print(self.my_score)
+                print(self.opponent_score)
+                print(self.elapsed_time)
+                print(self.status)
 
         winner = self.clientSocket.recv(1024).decode()
         Board.winning_screen(winner)

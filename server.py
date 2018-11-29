@@ -40,17 +40,22 @@ def new_client(clientSocket, this_client_num, this_score1, this_score2):
 
             message = clientSocket.recv(1024).decode('utf-8')
             if message == "ready":
-                time.sleep(.1)
+                # time.sleep(.1)
                 clientSocket.send(str(score1).encode())
-                time.sleep(.1)
+            message = clientSocket.recv(1024).decode('utf-8')
+            if message == "ready":
                 clientSocket.send(str(score2).encode())
 
-                curr_time = time.clock()
-                elapsed_time = curr_time - start_time
-                print("made it here too")
-                time.sleep(.1)
+            curr_time = time.clock()
+            elapsed_time = curr_time - start_time
+            print("made it here too")
+            message = clientSocket.recv(1024).decode('utf-8')
+            if message == "ready":
+                # time.sleep(.1)
                 clientSocket.send(str(elapsed_time).encode())
-                time.sleep(.1)
+            message = clientSocket.recv(1024).decode('utf-8')
+            if message == "ready":
+                # time.sleep(.1)
                 clientSocket.send("continue".encode())
             # clientSocket.send((str(score1) + " " + str(score2) + " " + str(elapsed_time) + " continue").encode())
 
