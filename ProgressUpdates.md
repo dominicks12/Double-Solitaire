@@ -55,5 +55,16 @@
 ### Any blocking issues challenges that need to be addressed?
 * There is a problem where moving a card creates a trail of duplicates
 
+## Week 5 (Nov 19th - Nov 26th)
+
+### What did you team do last week?
+* Fixed the issue of moving a card (switched to click and point instead of dragging)
+
+### What will you do this week?
+* Finish the functionality of the server and client communications
+
+### Any blocking issues?
+* No new issues
+
 # Comments
 1. Make sure you push code to master often. As long as you get done with one part, push the completed code to master and move on to the next rather than waiting to finish a big chunk then push
