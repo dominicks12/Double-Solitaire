@@ -224,7 +224,7 @@ class Board:
         score_2_text = basic_font_small.render(str(opponent_score), True, Board.WHITE, (245, 275))
         player_1_text = smaller_font.render("You", True, Board.WHITE, (245, 275))
         player_2_text = smaller_font.render(("Player " + str(player_num)), True, Board.WHITE, (245, 275))
-        game_time_text = bigger_font.render(str(elapsed_time), True, Board.WHITE, (0, 0))
+        game_time_text = bigger_font.render(str(elapsed_time)[:5], True, Board.WHITE, (0, 0))
 
         # game_time
         game_time_text_rect = game_time_text.get_rect()
