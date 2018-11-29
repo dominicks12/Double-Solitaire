@@ -55,6 +55,13 @@ class Card:
     def is_highlighted(self):
         return self.highlighted
 
+    def change_highlighted(self):
+        if self.highlighted:
+            self.highlighted = False
+        elif not self.highlighted:
+            self.highlighted = True
+        return
+
     @staticmethod
     def compare_rank(card1, card2):
         """

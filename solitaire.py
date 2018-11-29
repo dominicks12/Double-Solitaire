@@ -99,7 +99,7 @@ class Solitaire:
                 first_highlighted = len(self.col1.get_cards()) - 1
             while count < len(self.col1.get_cards()):
                 if count >= first_highlighted:
-                    self.col1.get_cards().__getitem__(count).highlight = True
+                    self.col1.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col1.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -108,7 +108,7 @@ class Solitaire:
                 first_highlighted = len(self.col2.get_cards()) - 1
             while count < len(self.col2.get_cards()):
                 if count >= first_highlighted:
-                    self.col2.get_cards().__getitem__(count).highlight = True
+                    self.col2.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col2.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -117,7 +117,7 @@ class Solitaire:
                 first_highlighted = len(self.col3.get_cards()) - 1
             while count < len(self.col3.get_cards()):
                 if count >= first_highlighted:
-                    self.col3.get_cards().__getitem__(count).highlight = True
+                    self.col3.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col3.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -126,7 +126,7 @@ class Solitaire:
                 first_highlighted = len(self.col4.get_cards()) - 1
             while count < len(self.col4.get_cards()):
                 if count >= first_highlighted:
-                    self.col4.get_cards().__getitem__(count).highlight = True
+                    self.col4.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col4.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -135,7 +135,7 @@ class Solitaire:
                 first_highlighted = len(self.col5.get_cards()) - 1
             while count < len(self.col5.get_cards()):
                 if count >= first_highlighted:
-                    self.col5.get_cards().__getitem__(count).highlight = True
+                    self.col5.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col5.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -144,7 +144,7 @@ class Solitaire:
                 first_highlighted = len(self.col6.get_cards()) - 1
             while count < len(self.col6.get_cards()):
                 if count >= first_highlighted:
-                    self.col6.get_cards().__getitem__(count).highlight = True
+                    self.col6.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col6.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
@@ -153,11 +153,18 @@ class Solitaire:
                 first_highlighted = len(self.col7.get_cards()) - 1
             while count < len(self.col7.get_cards()):
                 if count >= first_highlighted:
-                    self.col7.get_cards().__getitem__(count).highlight = True
+                    self.col7.cards.__getitem__(count).change_highlighted()
                     highlighted_cards.append(self.col7.get_cards().__getitem__(count))
                     self.cards_highlighted = True
                 count = count + 1
         return highlighted_cards
+
+    def dehighlight_cards(self, cards_to_dehighlight):
+        count = 0
+        while count < len(cards_to_dehighlight):
+            cards_to_dehighlight.__getitem__(count).change_highlight()
+            count = count + 1
+        return
 
     def remove_cards(self, cards_pos, num_of_cards_to_remove):
         stack_number = cards_pos.__getitem__(0)
@@ -249,71 +256,77 @@ class Solitaire:
                     card_coordinates = Board.get_card_hover()
                     if card_coordinates.__getitem__(0) > 0 and card_coordinates.__getitem__(0) < 8:
                         cards_to_move_to = card_coordinates.__getitem__(0)
-                        cards_to_move = highlighted_cards
 
-                        if Pile.can_be_moved(cards_to_move):
+                        if Pile.can_be_moved(highlighted_cards):
                             if cards_to_move_to == 1:
-                                if Pile.can_be_placed(self.col1, cards_to_move):
-                                    self.col1.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col1, highlighted_cards):
+                                    self.col1.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 2:
-                                if Pile.can_be_placed(self.col2, cards_to_move):
-                                    self.col2.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col2, highlighted_cards):
+                                    self.col2.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 3:
-                                if Pile.can_be_placed(self.col3, cards_to_move):
-                                    self.col3.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col3, highlighted_cards):
+                                    self.col3.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 4:
-                                if Pile.can_be_placed(self.col4, cards_to_move):
-                                    self.col4.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col4, highlighted_cards):
+                                    self.col4.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 5:
-                                if Pile.can_be_placed(self.col5, cards_to_move):
-                                    self.col5.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col5, highlighted_cards):
+                                    self.col5.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 6:
-                                if Pile.can_be_placed(self.col6, cards_to_move):
-                                    self.col6.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col6, highlighted_cards):
+                                    self.col6.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                             elif cards_to_move_to == 7:
-                                if Pile.can_be_placed(self.col7, cards_to_move):
-                                    self.col7.add_to_stack(cards_to_move)
-                                    self.remove_cards(cards_to_highlight, len(cards_to_move))
+                                if Pile.can_be_placed(self.col7, highlighted_cards):
+                                    self.col7.add_to_stack(highlighted_cards)
+                                    self.remove_cards(cards_to_highlight, len(highlighted_cards))
                                     cards_to_highlight = [-1, -1]
                                     self.clientSocket.send("5".encode())
                                 else:
                                     cards_to_highlight = [-1, -1]
+                                    self.dehighlight_cards(highlighted_cards)
                                     self.clientSocket.send("0".encode())
                         else:
                             self.clientSocket.send("0".encode())
@@ -321,7 +334,6 @@ class Solitaire:
                         self.clientSocket.send("0".encode())
 
             self.flip_cards()
-
 
             if self.player_num == "1":
                 print("made it to recieving")
