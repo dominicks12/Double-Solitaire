@@ -221,7 +221,7 @@ class Solitaire:
         board = Board()
         screen_num = 1
         cards_to_highlight = [-1, -1]
-        print(self.player_num)
+        # print(self.player_num)
         while self.status == "continue":
             if screen_num == -1:
                 self.clientSocket.send("-1".encode())
@@ -337,7 +337,7 @@ class Solitaire:
             self.flip_cards()
 
             if self.player_num == "1":
-                print("made it to recieving")
+                # print("made it to recieving")
                 self.clientSocket.send("ready".encode())
                 self.my_score = self.clientSocket.recv(1024).decode('utf-8')
                 self.clientSocket.send("ready".encode())
@@ -346,10 +346,10 @@ class Solitaire:
                 self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
                 self.clientSocket.send("ready".encode())
                 self.status = self.clientSocket.recv(1024).decode('utf-8')
-                print(self.my_score)
-                print(self.opponent_score)
-                print(self.elapsed_time)
-                print(self.status)
+                # print(self.my_score)
+                # print(self.opponent_score)
+                # print(self.elapsed_time)
+                # print(self.status)
             elif self.player_num == "2":
                 self.clientSocket.send("ready".encode())
                 self.opponent_score = self.clientSocket.recv(1024).decode('utf-8')
@@ -359,10 +359,10 @@ class Solitaire:
                 self.elapsed_time = self.clientSocket.recv(1024).decode('utf-8')
                 self.clientSocket.send("ready".encode())
                 self.status = self.clientSocket.recv(1024).decode('utf-8')
-                print(self.my_score)
-                print(self.opponent_score)
-                print(self.elapsed_time)
-                print(self.status)
+                # print(self.my_score)
+                # print(self.opponent_score)
+                # print(self.elapsed_time)
+                # print(self.status)
 
         winner = self.clientSocket.recv(1024).decode()
         Board.winning_screen(winner)
