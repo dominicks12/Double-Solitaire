@@ -223,7 +223,7 @@ class Board:
         score_1_text = basic_font_small.render(str(my_score), True, Board.WHITE, (245, 275))
         score_2_text = basic_font_small.render(str(opponent_score), True, Board.WHITE, (245, 275))
         player_1_text = smaller_font.render("You", True, Board.WHITE, (245, 275))
-        player_2_text = smaller_font.render(("Player " + str(player_num)), True, Board.WHITE, (245, 275))
+        player_2_text = smaller_font.render("Player 2", True, Board.WHITE, (245, 275))
         game_time_text = bigger_font.render(str(elapsed_time)[:5], True, Board.WHITE, (0, 0))
 
         # game_time
@@ -486,10 +486,11 @@ class Board:
                 sys.exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = event.pos
-
-                x_pos = mouse_pos[0]
-                y_pos = mouse_pos[1]
+                mouse = event.pos
+                stack_number = -1
+                card_num = -1
+                x_pos = mouse[0]
+                y_pos = mouse[1]
 
                 if y_pos < 180:
                     return [0, -1]
@@ -515,5 +516,4 @@ class Board:
 
                     card_num = count2
                 return [stack_number, card_num]
-
         return [-1, -1]

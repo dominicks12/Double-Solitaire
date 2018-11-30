@@ -12,8 +12,10 @@ pygame.init()
 
 
 class Solitaire:
-    serverName = '0.tcp.ngrok.io'
-    serverPort = 15043
+    # print("Enter in IP address of server: ")
+    # serverName = input()
+    serverName = 'localhost'
+    serverPort = 12000
     clientSocket = socket(AF_INET, SOCK_STREAM)
     clientSocket.connect((serverName, serverPort))
 
@@ -162,7 +164,7 @@ class Solitaire:
     def dehighlight_cards(self, cards_to_dehighlight):
         count = 0
         while count < len(cards_to_dehighlight):
-            cards_to_dehighlight.__getitem__(count).change_highlight()
+            cards_to_dehighlight.__getitem__(count).change_highlighted()
             count = count + 1
         return
 
@@ -246,7 +248,6 @@ class Solitaire:
                                                self.col6, self.col7, self.suit_stack_1, self.suit_stack_2,
                                                self.suit_stack_3, self.suit_stack_4, self.my_score, self.opponent_score,
                                                self.elapsed_time, self.player_num)
-            # print(cards_to_highlight)
             if cards_to_highlight.__getitem__(0) == -1:
                 cards_to_highlight = Board.get_card_hover()
                 highlighted_cards = Solitaire.highlight_cards(self, cards_to_highlight)
