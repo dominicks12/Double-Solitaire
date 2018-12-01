@@ -13,25 +13,21 @@ How?
 
 Both players are given the same game of solitaire to play. A timer will count how long it takes each player to complete their game. In the event that neither player finishes, whoever got the closest to finishing will win.
 
+# Features:
+- See your opponent's score in real time to promote competition
+
 # Requirements
-This program requires installation of ngrok and the Pygame module.
+This program requires installation of the Pygame module.
 
 # Getting Started and Installation
 - Choose the directory you would like to download to then type the following commands into your command line:
 $ cd YOURDIRECTORY
 $ git clone https://github.com/dominicks12/Double-Solitaire.git
 
+- Run the 'playGame' file 
 
-- On one machine only, navigate to where you downloaded ngrok and run the following commands in command line:
-$ ngrok tcp 12000
-
-- Copy the port number on the line labeled 'forwarding' (leave ngrok running)
-- Navigate to where you downloaded the git project
-- Open the 'Solitaire' file and edit the 'serverPort' variable to equal the port number you just copied
-- Save and exit
-
-- Run the 'server' file (only on machine that is running ngrok)
-- Run the 'playGame' file (person on other machine must also run their 'playGame' file)
+# Demo Video
+https://www.youtube.com/watch?v=mxHOVBvi2aU
 
 
 # Deliverables
